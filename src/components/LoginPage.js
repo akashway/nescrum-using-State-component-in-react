@@ -1,6 +1,9 @@
 import React, {Component} from 'react'
 import axios from 'axios'
 import './registrationPageStyles.css'
+import {Link} from 'react-router-dom'
+import { Redirect } from 'react-router'
+
 class RegistrationPage extends Component{
     constructor(){
         super()
@@ -11,6 +14,7 @@ class RegistrationPage extends Component{
             user_email:"",
             user_pass:"",
             dashboardStatus:false
+
         }
     }
 
@@ -19,6 +23,9 @@ class RegistrationPage extends Component{
             email:event.target.value
         })
         console.log(event.target.value)
+
+        const regxPasswoord=new RegExp("^(?=.*[!@#$%^&*])")
+        const regxEmail= new RegExp(/^([A-Za-z0-9_\-\.])+@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/)
     }
 
    
@@ -30,10 +37,13 @@ class RegistrationPage extends Component{
 
     }
 
+
+
     clickHandler= (event) =>{
         event.preventDefault()
         console.log(this.state.email)
         console.log(this.state.password)
+
 
         const newRegistration={
                 user_email:this.state.email,
@@ -51,6 +61,7 @@ class RegistrationPage extends Component{
                 console.log(localStorage.getItem("userName"))
                 console.log(localStorage.getItem("token"))
                 console.log(localStorage.getItem("userEmail"))
+                this.submitHandler()
             }
             )
 
@@ -58,15 +69,15 @@ class RegistrationPage extends Component{
                 console.log(error)
             }
             )
-            this.submitHandler()
             
         }
 
 
     }
 
-    submitHandler =(event) =>{
-        if(localStorage.getItem("token")){
+    submitHandler = async(event) =>{
+        let token=await localStorage.getItem("token")
+        if(token){
             this.setState({
                 dashboardStatus:true
             })
@@ -78,8 +89,21 @@ class RegistrationPage extends Component{
             })
             console.log("2")
         }
-        console.log(this.dashboardStatus)
+        console.log(this.state.dashboardStatus)
     }
+
+    // submitHandler = (event) =>{
+    //     if(localStorage.getItem("token")){
+    //         this.setState({
+    //             dashboardStatus:true
+    //         })
+    //         console.log("1")
+    //     }
+    //     else{
+    //         console.log("2")
+    //     }
+    //     console.log(this.state.dashboardStatus)
+    // }
 
        
     render(){
@@ -125,10 +149,9 @@ class RegistrationPage extends Component{
         }
 
     
-    
-
 
         return(
+            
             <div>
                 <div style={logo}>
                     <h1>Neo<span style={firstHeading}>SCRUM</span></h1>
@@ -144,7 +167,7 @@ class RegistrationPage extends Component{
                     </div>
 
                     <div>
-                        <input type="text" value={this.state.password} placeholder="password*" style={passwordField} onChange={this.handlePassword}/>
+                        <input type="password" value={this.state.password} placeholder="password*" style={passwordField} onChange={this.handlePassword} />
                     </div>
 
                     <div>
@@ -152,14 +175,18 @@ class RegistrationPage extends Component{
                     </div>
 
                     <div style={{margin: "130px auto", color:"blue"}}>
-
-                        <button style={{}}>Do not have account click here</button>
+                        <Link to="/">
+                            <button style={{}}>Do not have account click here</button>
+                        </Link>
                         <button style={{}}>Forget Password click here</button>
                         
                     </div>
                 </form>
-                {this.dashboardStatus? alert("you can "):null}
+                {localStorage.getItem("token")}
+                {this.state.dashboardStatus? <Redirect to='/dashboard'/> :console.log("no u can not")}
+                {localStorage.token?<Redirect to='/dashboard'/> :console.log("no u can not")}
             </div>
+            
         )
     }
 }

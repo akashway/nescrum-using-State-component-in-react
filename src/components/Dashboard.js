@@ -1,7 +1,74 @@
 import React,{ Component } from 'react'
+import axios from 'axios'
 import './dashboardClassStyles.css'
+import { Redirect } from 'react-router'
 
 class Dashboard extends Component{
+
+    constructor(){
+        super()
+        this.state={
+            tokenStatus:true,
+            addFeedbackStatus:null
+        }
+    }
+
+    apiHandler=()=>{
+
+            if(localStorage.token) {
+                axios.get("http://180.149.241.208:3047/feedback",{
+                    headers:{ Authorization:localStorage.token
+                    }
+                })
+                .then( response =>{
+                    console.log(response.data)
+                    localStorage.setItem("feedbackResponse",response.data.message)
+                })
+        
+            }
+    }
+
+    clickLogoutHandler=(event)=>{
+
+        localStorage.removeItem("token")
+        if(!(localStorage.token)){
+            this.setState({
+                tokenStatus:false
+            })
+            console.log(this.state.tokenStatus)
+        }
+
+        else{
+            this.setState({
+                tokenStatus:true
+            })
+            console.log(this.state.tokenStatus)
+
+        }
+
+        console.log(localStorage.token)
+    }
+
+    addFeedbackHandler=(event)=>{
+
+        if(localStorage.token){
+            this.setState({
+                addFeedbackStatus:true
+            })
+            console.log(this.state.addFeedbackStatus)
+        }
+
+        else{
+            this.setState({
+                addFeedbackStatus:false
+            })
+            console.log(this.state.addFeedbackStatus)
+
+        }
+
+
+    }
+
     render(){
         const feedbackButtonStyle={
             backgroundColor:"rgb(123, 50, 168)",
@@ -73,9 +140,11 @@ class Dashboard extends Component{
             marginTop:"7px",
             textAlign:"center"
         }
-    
+
         return(
             <div className="dashboardBox">
+                {this.apiHandler()}
+
 
             <div className="dashboardHeader">
                 
@@ -85,13 +154,16 @@ class Dashboard extends Component{
                 </div>
 
                 <div className="logout">
-                        <button style={feedbackButtonStyle}>Add Feedback</button>
-                    <button style={logoutButtonStyle}>Logout</button>
+                        <button style={feedbackButtonStyle} onClick={this.addFeedbackHandler}>Add Feedback</button>
+                    <button style={logoutButtonStyle} onClick={this.clickLogoutHandler}>Logout</button>
                 </div>
 
             </div>
 
+
             <div className="feedbackGridBox">
+
+            <h1>{localStorage.getItem("feedbackResponse")}</h1>
 
                 <div className="feedbackGrid">
                     <div className="one">
@@ -127,7 +199,9 @@ class Dashboard extends Component{
                 </div>
 
             </div> 
-             
+            {console.log(localStorage.token)}
+            { this.state.tokenStatus ? <Redirect to='/dashboard'/>  :<Redirect to='/login'/> }
+            {this.state.addFeedbackStatus? <Redirect to='/adddashboard'/> : null}
         </div>
         )
     }

@@ -1,6 +1,9 @@
 import React, {Component} from 'react'
 import axios from 'axios'
+import { Redirect } from 'react-router'
+import {Link} from 'react-router-dom'
 import './registrationPageStyles.css'
+
 class RegistrationPage extends Component{
     constructor(props){
         super(props)
@@ -13,7 +16,7 @@ class RegistrationPage extends Component{
             email:"",
             user_name:"",
             user_email:"",
-            loginStatus:false
+            // loginStatus:false
         }
     }
 
@@ -22,6 +25,7 @@ class RegistrationPage extends Component{
             employeeName:event.target.value
         })
         console.log(event.target.value)
+        const regxname = new RegExp("^(?=.*[0-9])")
     }
 
    
@@ -56,6 +60,10 @@ class RegistrationPage extends Component{
             this.emailLabeleReqRef.current.style.display="block"
 
         }
+        else if(this.state.regxname.test(this.state.email)){
+            this.emailRef.current.style.border="2px solid blue"
+            
+        }
 
         else{
             this.emailRef.current.style.border="0.5px solid black"
@@ -68,11 +76,11 @@ class RegistrationPage extends Component{
     clickHandler= (event) =>{
         event.preventDefault()
 
-        if(this.state.email){
-            if((localStorage.getItem("userEmail"))){
-                this.loginStatus=true;
-            }
-        }
+        // if(this.state.email){
+        //     if((localStorage.getItem("userEmail"))){
+        //         this.loginStatus=true;
+        //     }
+        // }
 
         const newRegistration={
                 user_name:this.state.employeeName,
@@ -180,11 +188,14 @@ class RegistrationPage extends Component{
 
                     <div style={{margin: "130px auto", color:"blue"}}>
 
-                        <button style={{}}>Already have account click here</button>
+                        <Link to="/login">
+                            <button style={{}}>Already have account click here</button>
+                        </Link>
                         
                     </div>
                 </form>
-                {this.loginStatus? alert("You Already Register with us "):null}
+                {/* {this.loginStatus? alert("You Already Register with us "):null} */}
+                {localStorage.token?<Redirect to='/dashboard'/>: null}
             </div>
         )
     }
