@@ -3,20 +3,27 @@ import axios from 'axios'
 import { Redirect } from 'react-router'
 import {Link} from 'react-router-dom'
 import './registrationPageStyles.css'
+import { Card } from 'react-bootstrap'
+import { Grid } from '@material-ui/core'
+import Button from 'react-bootstrap/Button'
 
 class RegistrationPage extends Component{
     constructor(props){
         super(props)
         this.nameRef= React.createRef()
         this.employeeLabeleReqRef= React.createRef()
+        this.employeeLabeleNumericRef=React.createRef()
+        this.employeeLabeleSpcRef=React.createRef()
         this.emailRef= React.createRef()
         this.emailLabeleReqRef= React.createRef()
+        this.emailLabeleProperRef= React.createRef()
+
         this.state={
             employeeName:"",
             email:"",
             user_name:"",
             user_email:"",
-            // loginStatus:false
+            loginStatus:false
         }
     }
 
@@ -25,7 +32,6 @@ class RegistrationPage extends Component{
             employeeName:event.target.value
         })
         console.log(event.target.value)
-        const regxname = new RegExp("^(?=.*[0-9])")
     }
 
    
@@ -38,36 +44,87 @@ class RegistrationPage extends Component{
     }
 
     handleNameBlur = (event) =>{
+        const regxname = new RegExp("^(?=.*[0-9])")
+        const regxPasswoord=new RegExp("^(?=.*[!@#$%^&*])")
+
+        // if(this.state.employeeName===""){
+        //     this.nameRef.current.style.border="2px solid red"
+        //     this.employeeLabeleReqRef.current.style.display="block"
+
+        // }
+
+        // else if(regxname.test(this.state.employeeName)){
+        //     this.nameRef.current.style.border="2px solid blue"
+            
+        // }
+
+        // else{
+        //     this.nameRef.current.style.border="0.5px solid black"
+        //     this.employeeLabeleReqRef.current.style.display="none"
+          
+        // }
 
         if(this.state.employeeName===""){
             this.nameRef.current.style.border="2px solid red"
             this.employeeLabeleReqRef.current.style.display="block"
+            this.employeeLabeleSpcRef.current.style.display="none"
+            this.employeeLabeleNumericRef.current.style.display="none"
+        }
+
+        else if(regxname.test(this.state.employeeName)){
+            this.employeeLabeleNumericRef.current.style.display="block"
+            this.employeeLabeleSpcRef.current.style.display="none"
+            this.employeeLabeleReqRef.current.style.display="none"
+        }
+
+        else if(regxPasswoord.test(this.state.employeeName)){
+            this.employeeLabeleSpcRef.current.style.display="block"
+            this.employeeLabeleNumericRef.current.style.display="none"
+            this.employeeLabeleReqRef.current.style.display="none"
 
         }
 
         else{
             this.nameRef.current.style.border="0.5px solid black"
+            this.employeeLabeleNumericRef.current.style.display="none"
             this.employeeLabeleReqRef.current.style.display="none"
-          
+            this.employeeLabeleSpcRef.current.style.display="none"
         }
-        console.log(this.loginStatus)
+
+     
     
     }
 
     handleEmailBlur=(event) => {
+
+        const regxEmail= new RegExp(/^([A-Za-z0-9_\-\.])+@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/)
         if(this.state.email===""){
             this.emailRef.current.style.border="2px solid red"
             this.emailLabeleReqRef.current.style.display="block"
+            this.emailLabeleProperRef.current.style.display="none"
 
         }
-        else if(this.state.regxname.test(this.state.email)){
-            this.emailRef.current.style.border="2px solid blue"
+
+        else if((regxEmail.test(this.state.email))===false){
+            this.emailRef.current.style.border="2px solid red"
+            this.emailLabeleProperRef.current.style.display="block"
+            this.emailLabeleReqRef.current.style.display="none"
             
         }
+
+        else if(localStorage.getItem("userEmail")===this.state.email){
+            alert("Email is already register with us ")
+            this.emailRef.current.style.border="2px solid red"
+            this.emailLabeleReqRef.current.style.display="none"
+            this.emailLabeleProperRef.current.style.display="none"
+
+        }
+
 
         else{
             this.emailRef.current.style.border="0.5px solid black"
             this.emailLabeleReqRef.current.style.display="none"
+            this.emailLabeleProperRef.current.style.display="none"
           
         }
 
@@ -100,6 +157,8 @@ class RegistrationPage extends Component{
                 console.log(this.state.email)
                 console.log(localStorage.getItem("fistTimeUser"))
                 console.log(localStorage.getItem("success"))
+                alert(localStorage.getItem("fistTimeUser"))
+                this.loginStatusHandler()
             }
             )
 
@@ -107,18 +166,38 @@ class RegistrationPage extends Component{
                 console.log(error)
             }
             )
-
             
         }
+        this.onSubmitHandler()
+    }
 
+    loginStatusHandler=()=>{
+
+        this.setState({
+            loginStatus:true
+        })
+    }
+
+    onSubmitHandler=()=>{
+        if(this.state.employeeName===""){
+            this.nameRef.current.style.border="2px solid red"
+            this.employeeLabeleReqRef.current.style.display="block"
+        }
+
+        if(this.state.email===""){
+            this.emailRef.current.style.border="2px solid red"
+            this.emailLabeleReqRef.current.style.display="block"
+        }
 
     }
+
 
        
     render(){
 
         const logo={
-            fontSize:"25px"
+            fontSize:"25px",
+            marginTop:"20px"
         }
     
         const firstHeading={
@@ -146,15 +225,15 @@ class RegistrationPage extends Component{
         }
     
         const buttonStyle={
-            backgroundColor:"rgb(123, 50, 168)",
-            color:"white",
-            padding:"13px",
+            // backgroundColor:"rgb(123, 50, 168)",
+            // color:"white",
+            // padding:"13px",
             float:"left",
-            border:"1px solid rgb(123, 50, 168)",
-            borderRadius:"3px",
-            marginTop:"60px",
-            marginLeft:"80px",
-            marginBottom:"0px"
+            // border:"1px solid rgb(123, 50, 168)",
+            // borderRadius:"3px",
+            marginTop:"70px",
+            marginLeft:"110px",
+            marginBottom:"8px"
         }
 
         return(
@@ -163,39 +242,53 @@ class RegistrationPage extends Component{
                     <h1>Neo<span style={firstHeading}>SCRUM</span></h1>
                 </div>
 
+                {/* <Grid container justify="center">
+
+                    <Card style={{width:"20rem",height:"23rem"}}>
+                        <Card.Body>
+                            <Card.Title>Enter New Developer</Card.Title>
+                        </Card.Body>
+
+                    </Card>
+
+                </Grid> */}
+
                 <form className="formBox" onSubmit={this.submitHandler}>
-                    <div >
+                    <div style={{margin:"10px 0px"}}>
                         <h3>Enter New Developer</h3>
                     </div>
 
-                    <div>
+                    <div style={{margin:"20px 23px 10px 24px"}}>
                         <input type="text" ref={this.nameRef} value={this.state.employeeName} placeholder="Employee Name*" style={employeeNameField}  onChange={this.handleEmployeeName} onBlur={this.handleNameBlur}/>
                         <label ref={this.employeeLabeleReqRef} style={{color:"red", display:"none"}}>**Employee Name Required</label> 
+                        <label ref={this.employeeLabeleNumericRef} style={{color:"red", display:"none"}}>**Numeric number not required</label>
+                        <label ref={this.employeeLabeleSpcRef} style={{color:"red", display:"none"}}>**No special character req.</label> 
                     </div>
 
-                    <div>
+                    <div style={{margin:"20px 23px 10px 24px"}}>
                         <input type="text" ref={this.emailRef} value={this.state.email} placeholder="Email*" style={emailField} onChange={this.handleEmail} onBlur={this.handleEmailBlur}/>
-                        <label ref={this.emailLabeleReqRef} style={{color:"red", display:"none"}}>**Email  Required</label> 
+                        <label ref={this.emailLabeleReqRef} style={{color:"red", display:"none",float:"left"}}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Email Required</label> 
+                        <label ref={this.emailLabeleProperRef}style={{color:"red", display:"none",float:"left"}}>**Please Enter Proper Email id</label> 
                     </div>
 
-                    <span style={{position:"relative", top:"30px",left:"30px"}}>
+                    <span style={{position:"relative", top:"30px",left:"46px"}}>
                         <input type="file" id="myFile" name="filename"></input>
                     </span>
 
                     <div>
-                        <button type="submit" style={buttonStyle} onClick={this.clickHandler}>Submit</button>
+                        <Button type="submit" style={buttonStyle} variant="primary"  onClick={this.clickHandler}>Submit</Button>
                     </div>
 
                     <div style={{margin: "130px auto", color:"blue"}}>
 
-                        <Link to="/login">
-                            <button style={{}}>Already have account click here</button>
+                        <Link to="/login" style={{textDecoration:"none"}}>
+                            <div style={{fontSize:"17px",color:"blue"}}>Already have account click here</div>
                         </Link>
                         
                     </div>
                 </form>
-                {/* {this.loginStatus? alert("You Already Register with us "):null} */}
                 {localStorage.token?<Redirect to='/dashboard'/>: null}
+                {this.state.loginStatus?<Redirect to='/login'/>:null}
             </div>
         )
     }

@@ -15,23 +15,19 @@
     height: 80px;
     border:0.5px solid rgb(8, 226, 212);
     border-radius: 3px;
-    display:grid;
-    grid-template-rows: 150x;
-    grid-template-columns: 1fr 1fr;
-    grid-column-gap:30px;
 }
 
 .dashboardHeader .nameLogo{
     padding: 8px;
     color:black;
-    width:100%;
+    width:50%;
     text-align: left;
     font-size: 20px;
 }
 
 .dashboardHeader .logout{
     padding: 18px 0px;
-    width:100%;
+    width:50%;
     text-align: right;
     font-size: 20px;
 }
@@ -44,7 +40,7 @@
 .feedbackGrid{
     background-color:white;
     padding: 20px 10px 10px 10px;
-    width:98%;
+    width:100%;
     height: 420px;
     margin-top: 50px auto;
     /* margin:50px; */
@@ -107,4 +103,54 @@
     box-shadow: 5px 5px rgb(109, 117, 117);
     border:1px solid black;
     border-radius: 3px;
+}
+
+
+@media (min-width:832px) and (max-width:1178px){
+
+    .feedbackGrid{
+        display:grid;
+        grid-template-rows: 190px 190px 190px;
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width:832px){
+
+    .feedbackGrid{
+        display:grid;
+        grid-template-rows: repeat(6,190px);
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(min-width:472px) and (max-width:625px){
+
+    .dashboardHeader .logout{
+        position: absolute;
+        top:70px;
+        left:100px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+    .feedbackGrid{
+        margin-top: 100px;
+    }
+
+    .response{
+        margin-top: 100px;
+    }
+
+}
+
+@media(max-width:472px){
+
+    .dashboardHeader .logout{
+        position: absolute;
+        top:70px;
+        left:200px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+
 }

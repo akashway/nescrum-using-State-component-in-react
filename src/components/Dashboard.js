@@ -1,7 +1,9 @@
+
 import React,{ Component } from 'react'
 import axios from 'axios'
 import './dashboardClassStyles.css'
 import { Redirect } from 'react-router'
+import Button from 'react-bootstrap/Button'
 
 class Dashboard extends Component{
 
@@ -26,6 +28,12 @@ class Dashboard extends Component{
                 })
         
             }
+
+            // if(localStorage.feedbackResponse){
+            //     this.setState({
+            //         displayBoxStatus:false
+            //     })
+            // }
     }
 
     clickLogoutHandler=(event)=>{
@@ -71,21 +79,26 @@ class Dashboard extends Component{
 
     render(){
         const feedbackButtonStyle={
-            backgroundColor:"rgb(123, 50, 168)",
-            color:"white",
-            padding:"10px",
-            margin:"5px",
-            border:"1px solid rgb(123, 50, 168)",
-            borderRadius:"2px"
+            position:"absolute",
+            // backgroundColor:"rgb(123, 50, 168)",
+            // color:"white",
+            // padding:"10px",
+            // border:"1px solid rgb(123, 50, 168)",
+            // borderRadius:"2px",
+            top:"25px",
+            right:"190px"
         }
     
         const logoutButtonStyle={
-            backgroundColor:"red",
-            color:"white",
-            padding:"10px",
+            position:"absolute",
+            // backgroundColor:"red",
+            // color:"white",
+            // padding:"10px",
             margin:"5px",
-            border:"1px solid red",
-            borderRadius:"2px"
+            // border:"1px solid red",
+            // borderRadius:"2px",
+            top:"20px",
+            right:"80px"
         }
     
         const feedbackStyleOne={
@@ -140,68 +153,71 @@ class Dashboard extends Component{
             marginTop:"7px",
             textAlign:"center"
         }
-
         return(
-            <div className="dashboardBox">
-                {this.apiHandler()}
+            <div>
+
+                <div className="dashboardBox">
+                    {this.apiHandler()}
 
 
-            <div className="dashboardHeader">
-                
-                <div className="nameLogo">
-                <img style={{width:"70px",height:"70px",borderRadius:"50px"}} src="https://image.shutterstock.com/image-photo/close-portrait-smiling-handsome-man-600w-1011569245.jpg" alt="Profile Photo"/ >
-                <span style={{position:"relative",left:"10px",bottom:"30px"}}>Akash Mishra</span>
+                <div className="dashboardHeader">
+                    
+                    <div className="nameLogo">
+                        <img style={{width:"70px",height:"70px",borderRadius:"50px"}} src="https://image.shutterstock.com/image-photo/close-portrait-smiling-handsome-man-600w-1011569245.jpg" alt="Profile Photo"/ >
+                        <span style={{position:"relative",left:"10px",top:"0px"}}>Akash Mishra</span>
+                    </div>
+
+                    <div className="logout">
+                        <Button style={feedbackButtonStyle} variant="primary" size="lg" onClick={this.addFeedbackHandler}>Add Feedback</Button>
+                        <Button style={logoutButtonStyle} variant="danger" size="lg" onClick={this.clickLogoutHandler}>Logout</Button>
+                    </div>
+
                 </div>
 
-                <div className="logout">
-                        <button style={feedbackButtonStyle} onClick={this.addFeedbackHandler}>Add Feedback</button>
-                    <button style={logoutButtonStyle} onClick={this.clickLogoutHandler}>Logout</button>
-                </div>
 
+                { !((localStorage.feedbackResponse)==="You have no feedback")  ?
+
+                    <div className="feedbackGridBox">
+
+                    <div className="feedbackGrid">
+                        <div className="one">
+                            <div style={feedbackStyleOne}><span style={{float:"left",paddingLeft:"15px"}}>Feedbacks</span>
+                            </div>
+                        </div>
+
+                        <div className="two">
+                            <div style={feedbackStyleTwo}><span style={{float:"left",paddingLeft:"15px"}}>Feedbacks</span>
+                            </div>
+                        </div>
+
+                        <div className="three">
+                            <div style={feedbackStyleThree}><span style={{float:"left",paddingLeft:"15px"}}>Feedbacks</span>
+                            </div>
+                        </div>
+
+                        <div className="four">
+                            <div style={feedbackStyleFour}><span style={{float:"left",paddingLeft:"15px"}}>Feedbacks</span>
+                            </div>
+                        </div>
+
+                        <div className="five">
+                            <div style={feedbackStyleFive}><span style={{float:"left",paddingLeft:"15px"}}>Feedbacks</span>
+                            </div>
+                        </div>
+
+                        <div className="six">
+                            <div style={feedbackStyleSix}><span style={{float:"left",paddingLeft:"15px"}}>Feedbacks</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div> : <div className="response"><h1>{(localStorage.feedbackResponse) }</h1></div>}
             </div>
+                {console.log(localStorage.token)}
+                { this.state.tokenStatus ? <Redirect to='/dashboard'/>  :<Redirect to='/login'/> }
+                {this.state.addFeedbackStatus? <Redirect to='/adddashboard'/> : null}
 
-
-            <div className="feedbackGridBox">
-
-            <h1>{localStorage.getItem("feedbackResponse")}</h1>
-
-                <div className="feedbackGrid">
-                    <div className="one">
-                        <div style={feedbackStyleOne}><span style={{float:"left",paddingLeft:"15px"}}>Feedbacks</span>
-                        </div>
-                    </div>
-
-                    <div className="two">
-                        <div style={feedbackStyleTwo}><span style={{float:"left",paddingLeft:"15px"}}>Feedbacks</span>
-                        </div>
-                    </div>
-
-                    <div className="three">
-                        <div style={feedbackStyleThree}><span style={{float:"left",paddingLeft:"15px"}}>Feedbacks</span>
-                        </div>
-                    </div>
-
-                    <div className="four">
-                        <div style={feedbackStyleFour}><span style={{float:"left",paddingLeft:"15px"}}>Feedbacks</span>
-                        </div>
-                    </div>
-
-                    <div className="five">
-                        <div style={feedbackStyleFive}><span style={{float:"left",paddingLeft:"15px"}}>Feedbacks</span>
-                        </div>
-                    </div>
-
-                    <div className="six">
-                        <div style={feedbackStyleSix}><span style={{float:"left",paddingLeft:"15px"}}>Feedbacks</span>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div> 
-            {console.log(localStorage.token)}
-            { this.state.tokenStatus ? <Redirect to='/dashboard'/>  :<Redirect to='/login'/> }
-            {this.state.addFeedbackStatus? <Redirect to='/adddashboard'/> : null}
         </div>
         )
     }
