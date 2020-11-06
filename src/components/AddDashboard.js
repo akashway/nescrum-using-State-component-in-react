@@ -183,7 +183,16 @@ import Button from "react-bootstrap/Button"
 class AddDashboard extends Component{
     constructor(){
         super()
+        this.textOneRequiredRef=React.createRef()
+        this.textTwoRequiredRef=React.createRef()
+        this.textThreeRequiredRef=React.createRef()
+        this.textOnelableRef=React.createRef()
+        this.textTwolableRef=React.createRef()
+        this.textThreelableRef=React.createRef()
         this.state={
+            textareaOne:"",
+            textareaTwo:"",
+            textareaThree:"",
             tokenAddStatus:true
         }
     }
@@ -223,6 +232,55 @@ clickLogoutHandler=(event)=>{
     }
 
     console.log(localStorage.token)
+    }
+
+    changeHandlerOne=(event)=>{
+        this.setState({
+            textareaOne:event.target.value
+        })
+    }
+
+    changeHandlerTwo=(event)=>{
+        this.setState({
+            textareaTwo:event.target.value
+        })
+    }
+
+    changeHandlerThree=(event)=>{
+        this.setState({
+            textareaThree:event.target.value
+        })
+    }
+
+
+
+    clickHandlerOne=(event)=>{
+        if(this.state.textareaOne===""){
+            this.textOneRequiredRef.current.style.border="2px solid red"
+            this.textOnelableRef.current.style.display="block"
+        }
+        else{
+            this.textOneRequiredRef.current.style.border="0.5px solid black"
+        }
+    }
+    clickHandlerTwo=(event)=>{
+        if(this.state.textareaTwo===""){
+            this.textTwoRequiredRef.current.style.border="2px solid red"
+            this.textTwolableRef.current.style.display="block"
+        }
+        else{
+            this.textTwoRequiredRef.current.style.border="0.5px solid black"
+        }
+    }
+
+    clickHandlerThree=(event)=>{
+        if(this.state.textareaThree===""){
+            this.textThreeRequiredRef.current.style.border="2px solid red"
+            this.textThreelableRef.current.style.display="block"
+        }
+        else{
+            this.textThreeRequiredRef.current.style.border="0.5px solid black"
+        }
     }
 
     render(){
@@ -319,8 +377,9 @@ clickLogoutHandler=(event)=>{
                             <img style={{width:"70px",height:"70px",borderRadius:"50px",marginTop:"60px"}} src="https://www.yourtango.com/sites/default/files/image_blog/types-guys-who-stay-single-men.jpg" alt="Profile Photo"/ >
                             </div>
                             <div>
-                                <textarea style={submitFeedbackStyleTextarea} rows="2" cols="43"></textarea>
-                                <Button style={submitFeedbackStyleOneButton} variant="primary" size="lg">Submit Feedback</Button>
+                                <textarea ref={this.textOneRequiredRef} value={this.state.textareaOne} style={submitFeedbackStyleTextarea} onChange={this.changeHandlerOne} onBlur={this.clickHandlerOne} rows="2" cols="43" ></textarea>
+                                <label ref={this.textOnelableRef} style={{color:"red", display:"none",float:"left",position:"absolute",top:"410px",left:"88px"}}>** this field must have value</label>
+                                <Button style={submitFeedbackStyleOneButton} variant="primary" size="lg" onClick={this.clickHandlerOne}>Submit Feedback</Button>
                             </div>
                         </div>
 
@@ -329,8 +388,9 @@ clickLogoutHandler=(event)=>{
                             <img style={{width:"70px",height:"70px",borderRadius:"50px",marginTop:"60px"}} src="https://media.vanityfair.com/photos/5df908e81216ae00085d37dc/9:16/w_749,h_1333,c_limit/little-women-man-problem-b.jpg" alt="Profile Photo"/ >
                             </div>
                             <div>
-                                <textarea style={submitFeedbackStyleTextarea} rows="2" cols="43"></textarea>
-                                <Button style={submitFeedbackStyleTwoButton} variant="primary" size="lg">Submit Feedback</Button>
+                                <textarea ref={this.textTwoRequiredRef} value={this.state.textareaTwo} style={submitFeedbackStyleTextarea} onChange={this.changeHandlerTwo} onBlur={this.clickHandlerTwo} rows="2" cols="43" ></textarea>
+                                <label ref={this.textTwolableRef} style={{color:"red", display:"none",float:"left",position:"absolute",top:"410px",left:"517px"}}>** this field must have value</label>
+                                <Button style={submitFeedbackStyleTwoButton} variant="primary" size="lg" onClick={this.clickHandlerTwo}>Submit Feedback</Button>
                             </div>
                         </div>
 
@@ -339,8 +399,10 @@ clickLogoutHandler=(event)=>{
                             <img style={{width:"70px",height:"70px",borderRadius:"50px",marginTop:"60px"}} src="https://image.shutterstock.com/image-photo/close-portrait-smiling-handsome-man-600w-1011569245.jpg" alt="Profile Photo"/ >
                             </div>
                             <div>
-                                <textarea style={submitFeedbackStyleTextarea} rows="2" cols="43"></textarea>
-                                <Button style={submitFeedbackStyleThreeButton} variant="primary" size="lg">Submit Feedback</Button>
+                                <textarea ref={this.textThreeRequiredRef} value={this.state.textareaThree} style={submitFeedbackStyleTextarea} onChange={this.changeHandlerThree} onBlur={this.clickHandlerThree} rows="2" cols="43" ></textarea>
+                                <label ref={this.textThreelableRef} style={{color:"red", display:"none",float:"left",position:"absolute",top:"410px",left:"947px"}}>** this field must have value</label>
+                                <Button style={submitFeedbackStyleThreeButton} variant="primary" size="lg" onClick={this.clickHandlerThree}>Submit Feedback</Button>
+                
                             </div>
                         </div>
 
