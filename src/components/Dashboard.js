@@ -4,6 +4,9 @@ import axios from 'axios'
 import './dashboardClassStyles.css'
 import { Redirect } from 'react-router'
 import Button from 'react-bootstrap/Button'
+import ChildDashboard from './ChildDashboard'
+
+
 
 class Dashboard extends Component{
 
@@ -182,31 +185,37 @@ class Dashboard extends Component{
                     <div className="feedbackGrid">
                         <div className="one">
                             <div style={feedbackStyleOne}><span style={{float:"left",paddingLeft:"15px"}}>Feedbacks</span>
+                            <ChildDashboard/>
                             </div>
                         </div>
 
                         <div className="two">
                             <div style={feedbackStyleTwo}><span style={{float:"left",paddingLeft:"15px"}}>Feedbacks</span>
+                            <ChildDashboard/>
                             </div>
                         </div>
 
                         <div className="three">
                             <div style={feedbackStyleThree}><span style={{float:"left",paddingLeft:"15px"}}>Feedbacks</span>
+                            <ChildDashboard/>
                             </div>
                         </div>
 
                         <div className="four">
                             <div style={feedbackStyleFour}><span style={{float:"left",paddingLeft:"15px"}}>Feedbacks</span>
+                            <ChildDashboard/>
                             </div>
                         </div>
 
                         <div className="five">
                             <div style={feedbackStyleFive}><span style={{float:"left",paddingLeft:"15px"}}>Feedbacks</span>
+                            <ChildDashboard/>
                             </div>
                         </div>
 
                         <div className="six">
                             <div style={feedbackStyleSix}><span style={{float:"left",paddingLeft:"15px"}}>Feedbacks</span>
+                            <ChildDashboard/>
                             </div>
                         </div>
 
