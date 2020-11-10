@@ -6,14 +6,25 @@ import './registrationPageStyles.css'
 import { Card } from 'react-bootstrap'
 import { Grid } from '@material-ui/core'
 import Button from 'react-bootstrap/Button'
+import LabelName from './LabelName'
+
+//Registration Class Component
+/**
+ * @author Akash Mishra
+ * @requires Parent App Components
+ * @description Create a basic Registration page with two input and submit button.API is called to validate all input field credential
+ * @returns Two Input Fields.Also return API links result in order to proper navigation between all pages off APP
+ */
 
 class RegistrationPage extends Component{
     constructor(props){
         super(props)
-        this.nameRef= React.createRef()
+        // super()
+        console.log(this.props.localStorageObject.userName)
         this.employeeLabeleReqRef= React.createRef()
         this.employeeLabeleNumericRef=React.createRef()
         this.employeeLabeleSpcRef=React.createRef()
+        this.nameRef= React.createRef()
         this.emailRef= React.createRef()
         this.emailLabeleReqRef= React.createRef()
         this.emailLabeleProperRef= React.createRef()
@@ -42,6 +53,12 @@ class RegistrationPage extends Component{
         })
 
     }
+
+    /**
+     * @requires Registration Page 
+     * @description Validate the Name feild using Blur.There is proper email and name should be entered using Blur validation function
+     * @returns CSS Styles which need to change on entering unaccepected details.
+     */ 
 
     handleNameBlur = (event) =>{
         const regxname = new RegExp("^(?=.*[0-9])")
@@ -95,6 +112,13 @@ class RegistrationPage extends Component{
     
     }
 
+        
+    /**
+     * @requires Registration Page 
+     * @description Validate the Email feild using Blur.There is proper email and name should be entered using Blur validation function
+     * @returns CSS Styles which need to change on entering unaccepected details.
+     */ 
+
     handleEmailBlur=(event) => {
 
         const regxEmail= new RegExp(/^([A-Za-z0-9_\-\.])+@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/)
@@ -130,6 +154,12 @@ class RegistrationPage extends Component{
 
     }
 
+    /**
+     * @requires Registration Page  
+     * @description On Submit function validate the field and it also establishing API connection on Login
+     * @returns Successful or Unsuccessful API Connection
+     */ 
+
     clickHandler= (event) =>{
         event.preventDefault()
 
@@ -149,15 +179,20 @@ class RegistrationPage extends Component{
 
             .then( response =>{
                 console.log(response)
-                localStorage.setItem("fistTimeUser",response.data.message)
-                localStorage.setItem("success",response.data.success)
+                this.props.localStorageObject.firstTimeUser=response.data.message
+                this.props.localStorageObject.success=response.data.success
+                // localStorage.setItem("fistTimeUser",response.data.message)
+                // localStorage.setItem("success",response.data.success)
                 console.log(newRegistration.user_name)
                 console.log(this.state.employeeName)
                 console.log(newRegistration.user_email)
                 console.log(this.state.email)
-                console.log(localStorage.getItem("fistTimeUser"))
-                console.log(localStorage.getItem("success"))
-                alert(localStorage.getItem("fistTimeUser"))
+                // console.log(localStorage.getItem("fistTimeUser"))
+                // console.log(localStorage.getItem("success"))
+                console.log(this.props.localStorageObject.firstTimeUser)
+                console.log(this.props.localStorageObject.success)
+                alert(this.props.localStorageObject.firstTimeUser)
+
                 this.loginStatusHandler()
             }
             )
@@ -177,6 +212,12 @@ class RegistrationPage extends Component{
             loginStatus:true
         })
     }
+
+    /**
+     * @requires Registration Page Function 
+     * @description Validate the feilds.There is proper email and name should be entered using validation function
+     * @returns CSS Styles which need to change on entering unaccepected details.
+     */ 
 
     onSubmitHandler=()=>{
         if(this.state.employeeName===""){
@@ -241,6 +282,13 @@ class RegistrationPage extends Component{
                 <div style={logo}>
                     <h1>Neo<span style={firstHeading}>SCRUM</span></h1>
                 </div>
+                {console.log(this.props.localStorageObject.firstTimeUser)}
+                {console.log(this.props.localStorageObject.success)}
+                {console.log(this.props.localStorageObject.userName)}
+                {console.log(this.props.localStorageObject.userEmail)}
+                {console.log(this.props.localStorageObject.feedbackResponse)}
+                {console.log(this.props.localStorageObject.addFeedbackResponse)}
+                {console.log(this.props.localStorageObject.token)}
 
                 {/* <Grid container justify="center">
 
@@ -262,7 +310,7 @@ class RegistrationPage extends Component{
                         <input type="text" ref={this.nameRef} value={this.state.employeeName} placeholder="Employee Name*" style={employeeNameField}  onChange={this.handleEmployeeName} onBlur={this.handleNameBlur}/>
                         <label ref={this.employeeLabeleReqRef} style={{color:"red", display:"none"}}>**Employee Name Required</label> 
                         <label ref={this.employeeLabeleNumericRef} style={{color:"red", display:"none"}}>**Numeric number not required</label>
-                        <label ref={this.employeeLabeleSpcRef} style={{color:"red", display:"none"}}>**No special character req.</label> 
+                        <label ref={this.employeeLabeleSpcRef} style={{color:"red", display:"none"}}>**No special character req.</label>
                     </div>
 
                     <div style={{margin:"20px 23px 10px 24px"}}>

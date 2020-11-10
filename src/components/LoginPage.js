@@ -7,9 +7,15 @@ import * as ReactBootStrap from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Button from 'react-bootstrap/Button'
 
-class RegistrationPage extends Component{
-    constructor(){
-        super()
+/**
+ * @requires login class Component 
+ * @description Validate the feilds.There is proper email and password should be entered using validation function
+ * @returns CSS Styles which need to change on entering unaccepected details.
+ */ 
+
+class LoginPage extends Component{
+    constructor(props){
+        super(props)
         this.emailRef=React.createRef()
         this.emailLabeleReqRef=React.createRef()
         this.emailLabeleProperRef=React.createRef()
@@ -47,7 +53,11 @@ class RegistrationPage extends Component{
 
     }
 
-
+    /**
+     * @requires login Page
+     * @description On Submit function validate the field and it also establishing API connection on Login
+     * @returns Successful or Unsuccessful API Connection
+     */ 
 
     clickHandler= (event) =>{
         event.preventDefault()
@@ -65,12 +75,18 @@ class RegistrationPage extends Component{
 
             .then( response =>{
                 console.log(response)
-                localStorage.setItem("userName",response.data.user_name)
-                localStorage.setItem("token",response.data.token)
-                localStorage.setItem("userEmail",response.data.user_email)
-                console.log(localStorage.getItem("userName"))
-                console.log(localStorage.getItem("token"))
-                console.log(localStorage.getItem("userEmail"))
+                this.props.localStorageObject.userName=response.data.user_name
+                this.props.localStorageObject.token=response.data.token
+                this.props.localStorageObject.userEmail=response.data.user_email
+                // localStorage.setItem("userName",response.data.user_name)
+                // localStorage.setItem("token",response.data.token)
+                // localStorage.setItem("userEmail",response.data.user_email)
+                console.log(this.props.localStorageObject.userName)
+                console.log(this.props.localStorageObject.token)
+                console.log(this.props.localStorageObject.userEmail)
+                // console.log(localStorage.getItem("userName"))
+                // console.log(localStorage.getItem("token"))
+                // console.log(localStorage.getItem("userEmail"))
                 this.submitHandler()
             }
             )
@@ -97,7 +113,7 @@ class RegistrationPage extends Component{
 
     submitHandler = async(event) =>{
         
-        let token=await localStorage.getItem("token")
+        let token=await this.props.localStorageObject.token
         // this.loadingStatusHandler()
         if(token){
             this.setState({
@@ -136,6 +152,13 @@ class RegistrationPage extends Component{
     //     console.log("yes before")
     // }
 
+
+    /**
+     * @requires login Page
+     * @description Validate the Password feilds on Blur.There is proper password should be entered using blur validation function
+     * @returns CSS Styles which need to change on entering unaccepected details.
+     */ 
+
     handlePassBlur=(event)=>{
         const regxPasswoord=new RegExp("^(?=.*[!@#$%^&*])")
 
@@ -167,6 +190,13 @@ class RegistrationPage extends Component{
         }
     }
 
+    /**
+     * @requires login Page 
+     * @description Validate the Email feilds on Blur.There is proper Email should be entered using blur validation function
+     * @returns CSS Styles which need to change on entering unaccepected details.
+     */ 
+
+
 
     handleEmailBlur=(event)=>{
         const regxEmail= new RegExp(/^([A-Za-z0-9_\-\.])+@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/)
@@ -190,6 +220,12 @@ class RegistrationPage extends Component{
         }
 
     }
+
+    /**
+     * @requires login Page
+     * @description Validate the fields on submit.There is proper email and password should be entered using validation function
+     * @returns CSS Styles which need to change on entering unaccepected details.
+     */ 
 
     onSubmitvalidationHandler=()=>{
 
@@ -260,6 +296,14 @@ class RegistrationPage extends Component{
                     <h1>Neo<span style={firstHeading}>SCRUM</span></h1>
                 </div>
 
+                {console.log(this.props.localStorageObject.firstTimeUser)}
+                {console.log(this.props.localStorageObject.success)}
+                {console.log(this.props.localStorageObject.userName)}
+                {console.log(this.props.localStorageObject.userEmail)}
+                {console.log(this.props.localStorageObject.feedbackResponse)}
+                {console.log(this.props.localStorageObject.addFeedbackResponse)}
+                {console.log(this.props.localStorageObject.token)}
+
                 {!(this.state.loadingStatus)?<form className="formBox" onSubmit={this.submitHandler}>
                     <div style={{marginTop:"10px"}}>
                         <h3>Login</h3>
@@ -294,13 +338,13 @@ class RegistrationPage extends Component{
                 </form>
     :<div style={{margin:"250px auto"}}><ReactBootStrap.Spinner size="lg" animation="border"/></div>}
 
-                {localStorage.getItem("token")}
+                {this.props.localStorageObject.token}
                 {this.state.dashboardStatus? <Redirect to='/dashboard'/> :console.log("no u can not")}
-                {localStorage.token?<Redirect to='/dashboard'/> :console.log("no u can not")}
+                {this.props.localStorageObject.token?<Redirect to='/dashboard'/> :console.log("no u can not")}
             </div>
             
         )
     }
 }
 
-export default RegistrationPage
+export default LoginPage

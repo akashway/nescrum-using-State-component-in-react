@@ -6,28 +6,42 @@ import { Redirect } from 'react-router'
 import Button from 'react-bootstrap/Button'
 import ChildDashboard from './ChildDashboard'
 
+//Dashboard class Component
+/**
+ * @author Akash Mishra
+ * @requires Parent App Components
+ * @description Basic logo and username is displayed at the top.List of feedbacks available in backend is showed with the help css grid.Timer is alse added using oment react js.API is called to validate all input field credential
+ * @returns Static Dashboard design.Also return API links result in order to proper navigation between all pages off APP
+ */
 
 
 class Dashboard extends Component{
 
-    constructor(){
-        super()
+    constructor(props){
+        super(props)
         this.state={
             tokenStatus:true,
             addFeedbackStatus:null
         }
     }
 
+    /**
+     * @requires Dashboard Page
+     * @description Api Handler function is use.During rendering it runns one time and it  establishing API connection.
+     * @returns Successful or Unsuccessful API Connection
+     */ 
+
     apiHandler=()=>{
 
-            if(localStorage.token) {
+            if(this.props.localStorageObject.token) {
                 axios.get("http://180.149.241.208:3047/feedback",{
-                    headers:{ Authorization:localStorage.token
+                    headers:{ Authorization:this.props.localStorageObject.token
                     }
                 })
                 .then( response =>{
                     console.log(response.data)
-                    localStorage.setItem("feedbackResponse",response.data.message)
+                    this.props.localStorageObject.feedbackResponse=response.data.message
+                    // localStorage.setItem("feedbackResponse",response.data.message)
                 })
         
             }
@@ -41,8 +55,8 @@ class Dashboard extends Component{
 
     clickLogoutHandler=(event)=>{
 
-        localStorage.removeItem("token")
-        if(!(localStorage.token)){
+        this.props.localStorageObject.token=""
+        if(!(this.props.localStorageObject.token)){
             this.setState({
                 tokenStatus:false
             })
@@ -57,12 +71,12 @@ class Dashboard extends Component{
 
         }
 
-        console.log(localStorage.token)
+        console.log(this.props.localStorageObject.token)
     }
 
     addFeedbackHandler=(event)=>{
 
-        if(localStorage.token){
+        if(this.props.localStorageObject.token){
             this.setState({
                 addFeedbackStatus:true
             })
@@ -159,10 +173,17 @@ class Dashboard extends Component{
         return(
             <div>
 
+
                 <div className="dashboardBox">
                     {this.apiHandler()}
 
-
+                {console.log(this.props.localStorageObject.firstTimeUser)}
+                {console.log(this.props.localStorageObject.success)}
+                {console.log(this.props.localStorageObject.userName)}
+                {console.log(this.props.localStorageObject.userEmail)}
+                {console.log(this.props.localStorageObject.feedbackResponse)}
+                {console.log(this.props.localStorageObject.addFeedbackResponse)}
+                {console.log(this.props.localStorageObject.token)}
                 <div className="dashboardHeader">
                     
                     <div className="nameLogo">
@@ -178,7 +199,7 @@ class Dashboard extends Component{
                 </div>
 
 
-                { !((localStorage.feedbackResponse)==="You have no feedback")  ?
+                { !((this.props.localStorageObject.feedbackResponse)==="You have no feedback")  ?
 
                     <div className="feedbackGridBox">
 
@@ -221,9 +242,9 @@ class Dashboard extends Component{
 
                     </div>
 
-                </div> : <div className="response"><h1>{(localStorage.feedbackResponse) }</h1></div>}
+                </div> : <div className="response"><h1>{(this.props.localStorageObject.feedbackResponse) }</h1></div>}
             </div>
-                {console.log(localStorage.token)}
+                {/* {this.props.localStorageObject.token} */}
                 { this.state.tokenStatus ? <Redirect to='/dashboard'/>  :<Redirect to='/login'/> }
                 {this.state.addFeedbackStatus? <Redirect to='/adddashboard'/> : null}
 

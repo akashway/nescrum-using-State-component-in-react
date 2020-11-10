@@ -8,14 +8,25 @@ import ForgetPassword from './components/ForgetPassword';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 function App() {
+
+  const localStorageObject={
+    userName:"",
+    firstTimeUser:"",
+    userEmail:"",
+    feedbackResponse:"",
+    addFeedbackResponse:"",
+    token:"",
+    success:""
+  }
+
   return (
     <Router>
       <div className="App">
         <Switch>
-          <Route path="/" exact component={RegistrationPage}/>
-          <Route path="/login" exact component={LoginPage}/>
-          <Route path="/dashboard" exact component={Dashboard}/>
-          <Route path="/adddashboard" exact component={AddDashboard}/>
+          <Route path="/" exact render={(props) => (<RegistrationPage localStorageObject={localStorageObject} {...props}/>)}/>
+          <Route path="/login" exact render={(props) => (<LoginPage localStorageObject={localStorageObject} {...props}/>)} />
+          <Route path="/dashboard" exact render={(props) => (<Dashboard localStorageObject={localStorageObject} {...props}/>)}/>
+          <Route path="/adddashboard" exact render={(props) => (<AddDashboard localStorageObject={localStorageObject} {...props}/>)}/>
           <Route path="/forgetpassword" exact component={ForgetPassword}/>
         </Switch>
       </div>
