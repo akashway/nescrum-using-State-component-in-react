@@ -75,18 +75,18 @@ class LoginPage extends Component{
 
             .then( response =>{
                 console.log(response)
-                this.props.localStorageObject.userName=response.data.user_name
-                this.props.localStorageObject.token=response.data.token
-                this.props.localStorageObject.userEmail=response.data.user_email
-                // localStorage.setItem("userName",response.data.user_name)
-                // localStorage.setItem("token",response.data.token)
-                // localStorage.setItem("userEmail",response.data.user_email)
-                console.log(this.props.localStorageObject.userName)
-                console.log(this.props.localStorageObject.token)
-                console.log(this.props.localStorageObject.userEmail)
-                // console.log(localStorage.getItem("userName"))
-                // console.log(localStorage.getItem("token"))
-                // console.log(localStorage.getItem("userEmail"))
+                // this.props.localStorageObject.userName=response.data.user_name
+                // this.props.localStorageObject.token=response.data.token
+                // this.props.localStorageObject.userEmail=response.data.user_email
+                localStorage.setItem("userName",response.data.user_name)
+                localStorage.setItem("token",response.data.token)
+                localStorage.setItem("userEmail",response.data.user_email)
+                // console.log(this.props.localStorageObject.userName)
+                // console.log(this.props.localStorageObject.token)
+                // console.log(this.props.localStorageObject.userEmail)
+                console.log(localStorage.getItem("userName"))
+                console.log(localStorage.getItem("token"))
+                console.log(localStorage.getItem("userEmail"))
                 this.submitHandler()
             }
             )
@@ -113,7 +113,7 @@ class LoginPage extends Component{
 
     submitHandler = async(event) =>{
         
-        let token=await this.props.localStorageObject.token
+        let token=await localStorage.token
         // this.loadingStatusHandler()
         if(token){
             this.setState({
@@ -296,13 +296,13 @@ class LoginPage extends Component{
                     <h1>Neo<span style={firstHeading}>SCRUM</span></h1>
                 </div>
 
-                {console.log(this.props.localStorageObject.firstTimeUser)}
+                {/* {console.log(this.props.localStorageObject.firstTimeUser)}
                 {console.log(this.props.localStorageObject.success)}
                 {console.log(this.props.localStorageObject.userName)}
                 {console.log(this.props.localStorageObject.userEmail)}
                 {console.log(this.props.localStorageObject.feedbackResponse)}
                 {console.log(this.props.localStorageObject.addFeedbackResponse)}
-                {console.log(this.props.localStorageObject.token)}
+                {console.log(this.props.localStorageObject.token)} */}
 
                 {!(this.state.loadingStatus)?<form className="formBox" onSubmit={this.submitHandler}>
                     <div style={{marginTop:"10px"}}>
@@ -338,9 +338,9 @@ class LoginPage extends Component{
                 </form>
     :<div style={{margin:"250px auto"}}><ReactBootStrap.Spinner size="lg" animation="border"/></div>}
 
-                {this.props.localStorageObject.token}
+                {localStorage.token}
                 {this.state.dashboardStatus? <Redirect to='/dashboard'/> :console.log("no u can not")}
-                {this.props.localStorageObject.token?<Redirect to='/dashboard'/> :console.log("no u can not")}
+                {localStorage.token?<Redirect to='/dashboard'/> :console.log("no u can not")}
             </div>
             
         )

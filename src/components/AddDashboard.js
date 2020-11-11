@@ -40,15 +40,15 @@ class AddDashboard extends Component{
 
     apiAddDashboardHandler=()=>{
 
-        if(this.props.localStorageObject.token) {
+        if(localStorage.token) {
             axios.get("http://180.149.241.208:3047/dashboard",{
-                headers:{ Authorization:this.props.localStorageObject.token
+                headers:{ Authorization:localStorage.token
                 }
             })
             .then( response =>{
                 console.log(response.data)
-                this.props.localStorageObject.addFeedbackResponse=response.data.message
-                // localStorage.setItem("feedbackResponseTwo",response.data.message)
+                // this.props.localStorageObject.addFeedbackResponse=response.data.message
+                localStorage.setItem("feedbackResponseTwo",response.data.message)
     
             })
     
@@ -57,9 +57,9 @@ class AddDashboard extends Component{
 
 clickLogoutHandler=(event)=>{
 
-    // localStorage.removeItem("token")
-    this.props.localStorageObject.token=""
-    if(!(this.props.localStorageObject.token)){
+    localStorage.removeItem("token")
+    // this.props.localStorageObject.token=""
+    if(!(localStorage.token)){
         this.setState({
             tokenAddStatus:false
         })
@@ -74,7 +74,7 @@ clickLogoutHandler=(event)=>{
 
     }
 
-    console.log(this.props.localStorageObject.token)
+    console.log(localStorage.token)
     }
 
     changeHandlerOne=(event)=>{
@@ -196,16 +196,15 @@ clickLogoutHandler=(event)=>{
         return(
 
             <div>
-                <div>
-                    {this.apiAddDashboardHandler()}
-
-                {console.log(this.props.localStorageObject.firstTimeUser)}
+                {/* {console.log(this.props.localStorageObject.firstTimeUser)}
                 {console.log(this.props.localStorageObject.success)}
                 {console.log(this.props.localStorageObject.userName)}
                 {console.log(this.props.localStorageObject.userEmail)}
                 {console.log(this.props.localStorageObject.feedbackResponse)}
                 {console.log(this.props.localStorageObject.addFeedbackResponse)}
-                {console.log(this.props.localStorageObject.token)}
+                {console.log(this.props.localStorageObject.token)} */}
+                <div>
+                    {this.apiAddDashboardHandler()}
 
                 <div class="submitDashboardHeader">
 
@@ -220,7 +219,7 @@ clickLogoutHandler=(event)=>{
 
                 </div>
 
-                { !((this.props.localStorageObject.addFeedbackResponse)==="You do not have any receiver name to give feedback") ?
+                { !((localStorage.feedbackResponseTwo)==="You do not have any receiver name to give feedback") ?
 
                     <div className="submitFeedbackGrid">
 
@@ -258,7 +257,7 @@ clickLogoutHandler=(event)=>{
                             </div>
                         </div>
 
-                    </div>:<h1>{this.props.localStorageObject.addFeedbackResponse}</h1>}
+                    </div>:<h1>{localStorage.feedbackResponseTwo}</h1>}
                     
                     {/* { localStorage.token ? <Redirect to='/adddashboard'/> :<Redirect to='/login'/>} */}
                     {this.state.tokenAddStatus?<Redirect to='/adddashboard'/> :<Redirect to='/login'/>}

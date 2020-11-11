@@ -20,7 +20,7 @@ class RegistrationPage extends Component{
     constructor(props){
         super(props)
         // super()
-        console.log(this.props.localStorageObject.userName)
+        // console.log(this.props.localStorageObject.userName)
         this.employeeLabeleReqRef= React.createRef()
         this.employeeLabeleNumericRef=React.createRef()
         this.employeeLabeleSpcRef=React.createRef()
@@ -179,19 +179,19 @@ class RegistrationPage extends Component{
 
             .then( response =>{
                 console.log(response)
-                this.props.localStorageObject.firstTimeUser=response.data.message
-                this.props.localStorageObject.success=response.data.success
-                // localStorage.setItem("fistTimeUser",response.data.message)
-                // localStorage.setItem("success",response.data.success)
-                console.log(newRegistration.user_name)
+                // this.props.localStorageObject.firstTimeUser=response.data.message
+                // this.props.localStorageObject.success=response.data.success
+                // // localStorage.setItem("fistTimeUser",response.data.message)
+                // // localStorage.setItem("success",response.data.success)
+                // console.log(newRegistration.user_name)
                 console.log(this.state.employeeName)
                 console.log(newRegistration.user_email)
                 console.log(this.state.email)
-                // console.log(localStorage.getItem("fistTimeUser"))
-                // console.log(localStorage.getItem("success"))
-                console.log(this.props.localStorageObject.firstTimeUser)
-                console.log(this.props.localStorageObject.success)
-                alert(this.props.localStorageObject.firstTimeUser)
+                console.log(localStorage.getItem("fistTimeUser"))
+                console.log(localStorage.getItem("success"))
+                // console.log(this.props.localStorageObject.firstTimeUser)
+                // console.log(this.props.localStorageObject.success)
+                alert(localStorage.getItem("fistTimeUser"))
 
                 this.loginStatusHandler()
             }
@@ -282,13 +282,13 @@ class RegistrationPage extends Component{
                 <div style={logo}>
                     <h1>Neo<span style={firstHeading}>SCRUM</span></h1>
                 </div>
-                {console.log(this.props.localStorageObject.firstTimeUser)}
+                {/* {console.log(this.props.localStorageObject.firstTimeUser)}
                 {console.log(this.props.localStorageObject.success)}
                 {console.log(this.props.localStorageObject.userName)}
                 {console.log(this.props.localStorageObject.userEmail)}
                 {console.log(this.props.localStorageObject.feedbackResponse)}
                 {console.log(this.props.localStorageObject.addFeedbackResponse)}
-                {console.log(this.props.localStorageObject.token)}
+                {console.log(this.props.localStorageObject.token)} */}
 
                 {/* <Grid container justify="center">
 
