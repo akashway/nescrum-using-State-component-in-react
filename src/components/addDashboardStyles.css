@@ -34,8 +34,8 @@
 .submitFeedbackGrid{
     background-color:white;
     padding: 20px 10px 10px 10px;
-    width:95%;
-    height: 420px;
+    width:98%;
+    height: 470px;
     margin-top: 50px;
     margin-left:40px;
     margin-bottom: 100px;
@@ -53,11 +53,13 @@
 .submitOne{
     background-color:white;
     border:1px solid black;
+    width:98%;
+    height:350px;
     border-radius: 3px;
 }
 
 
-.submitTwo{
+/* .submitTwo{
     
     background-color:white;
     border:1px solid black;
@@ -69,4 +71,4 @@
     background-color:white;
     border:1px solid black;
     border-radius: 3px;
-}
+} */

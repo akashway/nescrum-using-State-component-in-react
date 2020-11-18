@@ -1,4 +1,3 @@
-
 import React,{ Component } from 'react'
 import './addDashboardStyles.css'
 import axios from 'axios'
@@ -19,16 +18,14 @@ class AddDashboard extends Component{
     constructor(){
         super()
         this.textOneRequiredRef=React.createRef()
-        this.textTwoRequiredRef=React.createRef()
-        this.textThreeRequiredRef=React.createRef()
         this.textOnelableRef=React.createRef()
-        this.textTwolableRef=React.createRef()
-        this.textThreelableRef=React.createRef()
         this.state={
             textareaOne:"",
             textareaTwo:"",
             textareaThree:"",
-            tokenAddStatus:true
+            tokenAddStatus:true,
+            addFeedbackArray:[],
+            names : ['James',"roshan"]
         }
     }
 
@@ -38,7 +35,7 @@ class AddDashboard extends Component{
      * @returns Successful or Unsuccessful API Connection
      */ 
 
-    apiAddDashboardHandler=()=>{
+    componentDidMount=()=>{
 
         if(localStorage.token) {
             axios.get("http://180.149.241.208:3047/dashboard",{
@@ -49,6 +46,11 @@ class AddDashboard extends Component{
                 console.log(response.data)
                 // this.props.localStorageObject.addFeedbackResponse=response.data.message
                 localStorage.setItem("feedbackResponseTwo",response.data.message)
+                console.log(response.data.data)
+                this.setState({
+                    addFeedbackArray:response.data.data,
+                    
+                })
     
             })
     
@@ -58,6 +60,19 @@ class AddDashboard extends Component{
 clickLogoutHandler=(event)=>{
 
     localStorage.removeItem("token")
+    localStorage.removeItem("token");
+    localStorage.removeItem("fistTimeUser");
+    localStorage.removeItem("success");
+    localStorage.removeItem("userName");
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("feedbackResponse");
+    localStorage.removeItem("feedbackResponseTwo");
+    localStorage.removeItem("email");
+    localStorage.removeItem("name");
+    localStorage.removeItem("length");
+    localStorage.removeItem("fistUser");
+    localStorage.removeItem("FeedbackLength");
+    localStorage.removeItem("FeedbackArray");
     // this.props.localStorageObject.token=""
     if(!(localStorage.token)){
         this.setState({
@@ -83,17 +98,17 @@ clickLogoutHandler=(event)=>{
         })
     }
 
-    changeHandlerTwo=(event)=>{
-        this.setState({
-            textareaTwo:event.target.value
-        })
-    }
+    // changeHandlerTwo=(event)=>{
+    //     this.setState({
+    //         textareaTwo:event.target.value
+    //     })
+    // }
 
-    changeHandlerThree=(event)=>{
-        this.setState({
-            textareaThree:event.target.value
-        })
-    }
+    // changeHandlerThree=(event)=>{
+    //     this.setState({
+    //         textareaThree:event.target.value
+    //     })
+    // }
 
 
 
@@ -106,25 +121,25 @@ clickLogoutHandler=(event)=>{
             this.textOneRequiredRef.current.style.border="0.5px solid black"
         }
     }
-    clickHandlerTwo=(event)=>{
-        if(this.state.textareaTwo===""){
-            this.textTwoRequiredRef.current.style.border="2px solid red"
-            this.textTwolableRef.current.style.display="block"
-        }
-        else{
-            this.textTwoRequiredRef.current.style.border="0.5px solid black"
-        }
-    }
+    // clickHandlerTwo=(event)=>{
+    //     if(this.state.textareaTwo===""){
+    //         this.textTwoRequiredRef.current.style.border="2px solid red"
+    //         this.textTwolableRef.current.style.display="block"
+    //     }
+    //     else{
+    //         this.textTwoRequiredRef.current.style.border="0.5px solid black"
+    //     }
+    // }
 
-    clickHandlerThree=(event)=>{
-        if(this.state.textareaThree===""){
-            this.textThreeRequiredRef.current.style.border="2px solid red"
-            this.textThreelableRef.current.style.display="block"
-        }
-        else{
-            this.textThreeRequiredRef.current.style.border="0.5px solid black"
-        }
-    }
+    // clickHandlerThree=(event)=>{
+    //     if(this.state.textareaThree===""){
+    //         this.textThreeRequiredRef.current.style.border="2px solid red"
+    //         this.textThreelableRef.current.style.display="block"
+    //     }
+    //     else{
+    //         this.textThreeRequiredRef.current.style.border="0.5px solid black"
+    //     }
+    // }
 
     render(){
 
@@ -142,8 +157,8 @@ clickLogoutHandler=(event)=>{
     
         const submitFeedbackStyleOneButton={
             position:"relative",
-            top:"10px",
-            left:"67px",
+            top:"15px",
+            left:"50px",
             // backgroundColor:"rgb(123, 50, 168)",
             // border:"2px solid rgb(123, 50, 168)",
             // borderRadius:"2px",
@@ -152,34 +167,36 @@ clickLogoutHandler=(event)=>{
             // width:"160px"
         }
     
-        const submitFeedbackStyleTwoButton={
-            position:"relative",
-            top:"10px",
-            left:"67px",
-            // backgroundColor:"rgb(123, 50, 168)",
-            // border:"2px solid rgb(123, 50, 168)",
-            // borderRadius:"2px",
-            // color:"white",
-            // padding:"13px",
-            // width:"160px"
-        }
+        // const submitFeedbackStyleTwoButton={
+        //     position:"relative",
+        //     top:"10px",
+        //     left:"67px",
+        //     backgroundColor:"rgb(123, 50, 168)",
+        //     border:"2px solid rgb(123, 50, 168)",
+        //     borderRadius:"2px",
+        //     color:"white",
+        //     padding:"13px",
+        //     width:"160px"
+        // }
     
-        const submitFeedbackStyleThreeButton={
-            position:"relative",
-            top:"10px",
-            left:"67px",
-            // backgroundColor:"rgb(123, 50, 168)",
-            // border:"2px solid rgb(123, 50, 168)",
-            // borderRadius:"2px",
-            // color:"white",
-            // padding:"13px",
-            // width:"160px"
-        }
+        // const submitFeedbackStyleThreeButton={
+        //     position:"relative",
+        //     top:"10px",
+        //     left:"67px",
+        //     backgroundColor:"rgb(123, 50, 168)",
+        //     border:"2px solid rgb(123, 50, 168)",
+        //     borderRadius:"2px",
+        //     color:"white",
+        //     padding:"13px",
+        //     width:"160px"
+        // }
     
         const submitFeedbackStyleTextarea={
     
             marginTop:"65px",
-            marginBottom:"10px"
+            marginBottom:"10px",
+            marginLeft:"10px",
+            marginRight:"10px"
     
         }
 
@@ -204,7 +221,6 @@ clickLogoutHandler=(event)=>{
                 {console.log(this.props.localStorageObject.addFeedbackResponse)}
                 {console.log(this.props.localStorageObject.token)} */}
                 <div>
-                    {this.apiAddDashboardHandler()}
 
                 <div class="submitDashboardHeader">
 
@@ -223,7 +239,32 @@ clickLogoutHandler=(event)=>{
 
                     <div className="submitFeedbackGrid">
 
-                        <div className="submitOne">
+                        
+                            {
+
+                            ((this.state.addFeedbackArray).map(name => {
+                                return(
+                                    <div>
+                                        <div className="submitOne">
+                                            <div>
+                                            <img style={{width:"70px",height:"70px",borderRadius:"50px",marginTop:"60px"}} src="https://www.yourtango.com/sites/default/files/image_blog/types-guys-who-stay-single-men.jpg" alt="Profile Photo"/ >
+                                            {name}
+                                            </div>
+                                            <div>
+                                                <textarea ref={this.textOneRequiredRef} value={this.state.textareaOne} style={submitFeedbackStyleTextarea} onChange={this.changeHandlerOne} onBlur={this.clickHandlerOne} rows="2" cols="43" ></textarea>
+                                                <label ref={this.textOnelableRef} style={{color:"red", display:"none",float:"left",position:"absolute",top:"410px",left:"88px"}}>** this field must have value</label>
+                                                <Button style={submitFeedbackStyleOneButton} variant="primary" size="lg" onClick={this.clickHandlerOne}>Submit Feedback</Button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
+                            }))
+
+
+                            }
+
+
+                        {/* <div className="submitOne">
                             <div>
                             <img style={{width:"70px",height:"70px",borderRadius:"50px",marginTop:"60px"}} src="https://www.yourtango.com/sites/default/files/image_blog/types-guys-who-stay-single-men.jpg" alt="Profile Photo"/ >
                             </div>
@@ -255,7 +296,7 @@ clickLogoutHandler=(event)=>{
                                 <Button style={submitFeedbackStyleThreeButton} variant="primary" size="lg" onClick={this.clickHandlerThree}>Submit Feedback</Button>
                 
                             </div>
-                        </div>
+                        </div> */}
 
                     </div>:<h1>{localStorage.feedbackResponseTwo}</h1>}
                     

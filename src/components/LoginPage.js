@@ -18,18 +18,17 @@ class LoginPage extends Component{
         super(props)
         this.emailRef=React.createRef()
         this.emailLabeleReqRef=React.createRef()
-        this.emailLabeleProperRef=React.createRef()
         this.passwordRef=React.createRef()
         this.passLabeleReqRef=React.createRef()
-        this.passLabeleAlpaNumRef=React.createRef()
-        this.passLabeleLengthRef=React.createRef()
         this.state={
             email:"",
             password:"",
             user_email:"",
             user_pass:"",
             dashboardStatus:false,
-            loadingStatus:null
+            loadingStatus:null,
+            passwordError:"",
+            employeeEmailError:""
 
         }
     }
@@ -165,28 +164,35 @@ class LoginPage extends Component{
         if(this.state.password===""){
             this.passwordRef.current.style.border="2px solid red"
             this.passLabeleReqRef.current.style.display="block"
-            this.passLabeleAlpaNumRef.current.style.display="none"
-            this.passLabeleLengthRef.current.style.display="none"
+            this.setState({
+                passwordError:"**Password Required"
+            })
         }
 
         else if(regxPasswoord.test(this.state.password)){
             this.passwordRef.current.style.border="0.5px solid black"
-            this.passLabeleAlpaNumRef.current.style.display="none"
             this.passLabeleReqRef.current.style.display="none"
-            this.passLabeleLengthRef.current.style.display="none"
+            this.setState({
+                passwordError:""
+            })
+     
         }
 
         else if(this.state.password.length<8 || this.state.password.length>13 ){
             this.passwordRef.current.style.border="2px solid red"
-            this.passLabeleLengthRef.current.style.display="block"
-            this.passLabeleReqRef.current.style.display="none"
-            this.passLabeleAlpaNumRef.current.style.display="none"
+            this.passLabeleReqRef.current.style.display="block"
+            this.setState({
+                passwordError:"**length between 8 and 13"
+            })
+            
         }
         else{
             this.passwordRef.current.style.border="0.5px solid black"
             this.passLabeleReqRef.current.style.display="none"
-            this.passLabeleAlpaNumRef.current.style.display="none"
-            this.passLabeleLengthRef.current.style.display="none"
+            this.setState({
+                passwordError:""
+            })
+         
         }
     }
 
@@ -203,20 +209,27 @@ class LoginPage extends Component{
         if(this.state.email===""){
             this.emailRef.current.style.border="2px solid red"
             this.emailLabeleReqRef.current.style.display="block"
-            this.emailLabeleProperRef.current.style.display="none"
+            this.setState({
+                employeeEmailError:"**Email required"
+            })
+        
         }
 
         else if((regxEmail.test(this.state.email))===false){
             this.emailRef.current.style.border="2px solid red"
-            this.emailLabeleProperRef.current.style.display="block"
-            this.emailLabeleReqRef.current.style.display="none"
+            this.emailLabeleReqRef.current.style.display="block"
+            this.setState({
+                employeeEmailError:"**Enter Proper Email Id"
+            })
             
         }
 
         else{
             this.emailRef.current.style.border="0.5px solid black"
-            this.emailLabeleProperRef.current.style.display="none"
             this.emailLabeleReqRef.current.style.display="none"
+            this.setState({
+                employeeEmailError:""
+            })
         }
 
     }
@@ -232,11 +245,17 @@ class LoginPage extends Component{
         if(this.state.email===""){
             this.emailRef.current.style.border="2px solid red"
             this.emailLabeleReqRef.current.style.display="block"
+            this.setState({
+                employeeEmailError:"**Email required"
+            })
         }
 
         if(this.state.password===""){
             this.passwordRef.current.style.border="2px solid red"
             this.passLabeleReqRef.current.style.display="block"
+            this.setState({
+                passwordError:"**Password Required"
+            })
         }
 
 
@@ -311,15 +330,15 @@ class LoginPage extends Component{
     
                     <div style={{margin:"20px 23px 10px 24px"}}>
                         <input type="text" ref={this.emailRef} value={this.state.email} placeholder="Email*" style={emailField}  onChange={this.handleEmail} onBlur={this.handleEmailBlur}/>
-                        <label ref={this.emailLabeleReqRef} style={{color:"red", display:"none",float:"left"}}>&nbsp;&nbsp;&nbsp;&nbsp;**Email Required</label> 
-                        <label ref={this.emailLabeleProperRef}style={{color:"red", display:"none"}}>**Please Enter Proper Email id</label> 
+                        <label ref={this.emailLabeleReqRef} style={{color:"red", display:"none",float:"left",marginLeft:"23px"}}>{this.state.employeeEmailError}</label> 
+                        {/* <label ref={this.emailLabeleProperRef}style={{color:"red", display:"none"}}>**Please Enter Proper Email id</label>  */}
                     </div>
 
                     <div style={{margin:"20px 23px 10px 24px"}}>
                         <input type="password" ref={this.passwordRef} value={this.state.password} placeholder="password*" style={passwordField} onChange={this.handlePassword} onBlur={this.handlePassBlur}/>
-                        <label ref={this.passLabeleReqRef} style={{color:"red", display:"none",float:"left"}}>&nbsp;&nbsp;&nbsp;&nbsp;**password Required</label>
-                        <label ref={this.passLabeleAlpaNumRef} style={{color:"red", display:"none"}}>**should contain Alpha Numeric no special chars</label>
-                        <label ref={this.passLabeleLengthRef} style={{color:"red", display:"none"}}>**length between 8 and 13</label>  
+                        <label ref={this.passLabeleReqRef} style={{color:"red", display:"none",float:"left",marginLeft:"23px"}}>{this.state.passwordError}</label>
+                        {/* <label ref={this.passLabeleAlpaNumRef} style={{color:"red", display:"none"}}>**should contain Alpha Numeric no special chars</label>
+                        <label ref={this.passLabeleLengthRef} style={{color:"red", display:"none"}}>**length between 8 and 13</label>   */}
                     </div>
 
                     <div>

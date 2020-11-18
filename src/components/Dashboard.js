@@ -20,7 +20,12 @@ class Dashboard extends Component{
         super(props)
         this.state={
             tokenStatus:true,
-            addFeedbackStatus:null
+            addFeedbackStatus:null,
+            names : ['James'],
+            feedbackArray:[],
+            feedbackLength:0
+
+            
         }
     }
 
@@ -30,7 +35,7 @@ class Dashboard extends Component{
      * @returns Successful or Unsuccessful API Connection
      */ 
 
-    apiHandler=()=>{
+    componentDidMount=()=>{
 
             if(localStorage.token) {
                 axios.get("http://180.149.241.208:3047/feedback",{
@@ -41,6 +46,13 @@ class Dashboard extends Component{
                     console.log(response.data)
                     // this.props.localStorageObject.feedbackResponse=response.data.message
                     localStorage.setItem("feedbackResponse",response.data.message)
+                    // localStorage.setItem("feedbackLength",response.data.feedback.length)
+                    // localStorage.setItem("feedbackArray",response.data.feedback)
+                    this.setState({
+                        feedbackArray:response.data.feedback,
+                        feedbackLength:response.data.feedback.length
+                    })
+                    console.log(response.data.feedback)
                     console.log("api handler")
                     // console.log(this.props.localStorageObject.feedbackResponse)
                     console.log(localStorage.feedbackResponse)
@@ -59,6 +71,18 @@ class Dashboard extends Component{
 
         // this.props.localStorageObject.token=""
         localStorage.removeItem("token");
+        localStorage.removeItem("fistTimeUser");
+        localStorage.removeItem("success");
+        localStorage.removeItem("userName");
+        localStorage.removeItem("userEmail");
+        localStorage.removeItem("feedbackResponse");
+        localStorage.removeItem("feedbackResponseTwo");
+        localStorage.removeItem("email");
+        localStorage.removeItem("name");
+        localStorage.removeItem("length");
+        localStorage.removeItem("fistUser");
+        localStorage.removeItem("FeedbackLength");
+        localStorage.removeItem("FeedbackArray");
         if(!(localStorage.token)){
             this.setState({
                 tokenStatus:false
@@ -126,55 +150,57 @@ class Dashboard extends Component{
             width:"350px",
             height:"30px",
             marginLeft:"10px",
-            marginTop:"7px"
-        }
-    
-        const feedbackStyleTwo={
-            backgroundColor:"blue",
-            width:"350px",
-            height:"30px",
-            marginLeft:"10px",
             marginTop:"7px",
             textAlign:"center"
         }
     
-        const feedbackStyleThree={
-            backgroundColor:"yellow",
-            width:"350px",
-            height:"30px",
-            marginLeft:"10px",
-            marginTop:"7px",
-            textAlign:"center"
-        }
+        // const feedbackStyleTwo={
+        //     backgroundColor:"blue",
+        //     width:"350px",
+        //     height:"30px",
+        //     marginLeft:"10px",
+        //     marginTop:"7px",
+        //     textAlign:"center"
+        // }
     
-        const feedbackStyleFour={
-            backgroundColor:"green",
-            width:"350px",
-            height:"30px",
-            marginLeft:"10px",
-            marginTop:"7px",
-            textAlign:"center"
-        }
+        // const feedbackStyleThree={
+        //     backgroundColor:"yellow",
+        //     width:"350px",
+        //     height:"30px",
+        //     marginLeft:"10px",
+        //     marginTop:"7px",
+        //     textAlign:"center"
+        // }
     
-        const feedbackStyleFive={
-            backgroundColor:"violet",
-            width:"350px",
-            height:"30px",
-            marginLeft:"10px",
-            marginTop:"7px",
-            textAlign:"center"
-        }
+        // const feedbackStyleFour={
+        //     backgroundColor:"green",
+        //     width:"350px",
+        //     height:"30px",
+        //     marginLeft:"10px",
+        //     marginTop:"7px",
+        //     textAlign:"center"
+        // }
     
-        const feedbackStyleSix={
-            backgroundColor:"chocolate",
-            width:"350px",
-            height:"30px",
-            marginLeft:"10px",
-            marginTop:"7px",
-            textAlign:"center"
-        }
+        // const feedbackStyleFive={
+        //     backgroundColor:"violet",
+        //     width:"350px",
+        //     height:"30px",
+        //     marginLeft:"10px",
+        //     marginTop:"7px",
+        //     textAlign:"center"
+        // }
+    
+        // const feedbackStyleSix={
+        //     backgroundColor:"chocolate",
+        //     width:"350px",
+        //     height:"30px",
+        //     marginLeft:"10px",
+        //     marginTop:"7px",
+        //     textAlign:"center"
+        // }
         return(
             <div>
+
 {/* 
                 {console.log(this.props.localStorageObject.firstTimeUser)}
                 {console.log(this.props.localStorageObject.success)}
@@ -184,7 +210,6 @@ class Dashboard extends Component{
                 {console.log(this.props.localStorageObject.addFeedbackResponse)}
                 {console.log(this.props.localStorageObject.token)} */}
                 <div className="dashboardBox">
-                    {this.apiHandler()}
 
                 <div className="dashboardHeader">
                     
@@ -205,7 +230,24 @@ class Dashboard extends Component{
 
                     <div className="feedbackGridBox">
 
-                    <div className="feedbackGrid">
+                        {
+
+                                ((this.state.feedbackArray).map(name => {
+                                    return(
+                                        <div>
+                                            <div className="one">
+                                                <div style={feedbackStyleOne}><span style={{float:"left",paddingLeft:"15px"}}>Feedbacks {name }</span>
+                                                    <ChildDashboard/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )
+                                }))
+
+
+                        }
+
+                    {/* <div className="feedbackGrid">
                         <div className="one">
                             <div style={feedbackStyleOne}><span style={{float:"left",paddingLeft:"15px"}}>Feedbacks</span>
                             <ChildDashboard/>
@@ -213,36 +255,36 @@ class Dashboard extends Component{
                         </div>
 
                         <div className="two">
-                            <div style={feedbackStyleTwo}><span style={{float:"left",paddingLeft:"15px"}}>Feedbacks</span>
+                            <div style={feedbackStyleOne}><span style={{float:"left",paddingLeft:"15px"}}>Feedbacks</span>
                             <ChildDashboard/>
                             </div>
                         </div>
 
                         <div className="three">
-                            <div style={feedbackStyleThree}><span style={{float:"left",paddingLeft:"15px"}}>Feedbacks</span>
+                            <div style={feedbackStyleOne}><span style={{float:"left",paddingLeft:"15px"}}>Feedbacks</span>
                             <ChildDashboard/>
                             </div>
                         </div>
 
                         <div className="four">
-                            <div style={feedbackStyleFour}><span style={{float:"left",paddingLeft:"15px"}}>Feedbacks</span>
+                            <div style={feedbackStyleOne}><span style={{float:"left",paddingLeft:"15px"}}>Feedbacks</span>
                             <ChildDashboard/>
                             </div>
                         </div>
 
                         <div className="five">
-                            <div style={feedbackStyleFive}><span style={{float:"left",paddingLeft:"15px"}}>Feedbacks</span>
+                            <div style={feedbackStyleOne}><span style={{float:"left",paddingLeft:"15px"}}>Feedbacks</span>
                             <ChildDashboard/>
                             </div>
                         </div>
 
                         <div className="six">
-                            <div style={feedbackStyleSix}><span style={{float:"left",paddingLeft:"15px"}}>Feedbacks</span>
+                            <div style={feedbackStyleOne}><span style={{float:"left",paddingLeft:"15px"}}>Feedbacks</span>
                             <ChildDashboard/>
                             </div>
                         </div>
 
-                    </div>
+                    </div> */}
 
                 </div> : <div className="response"><h1>{(localStorage.feedbackResponse) }</h1></div>}
             </div>

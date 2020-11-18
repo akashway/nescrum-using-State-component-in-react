@@ -22,20 +22,20 @@ class RegistrationPage extends Component{
         // super()
         // console.log(this.props.localStorageObject.userName)
         this.employeeLabeleReqRef= React.createRef()
-        this.employeeLabeleNumericRef=React.createRef()
-        this.employeeLabeleSpcRef=React.createRef()
         this.nameRef= React.createRef()
         this.emailRef= React.createRef()
         this.emailLabeleReqRef= React.createRef()
-        this.emailLabeleProperRef= React.createRef()
 
         this.state={
             employeeName:"",
             email:"",
             user_name:"",
             user_email:"",
-            loginStatus:false
+            loginStatus:false,
+            employeeNameError:"",
+            employeeEmail:""
         }
+
     }
 
     handleEmployeeName = (event) =>{
@@ -63,7 +63,6 @@ class RegistrationPage extends Component{
     handleNameBlur = (event) =>{
         const regxname = new RegExp("^(?=.*[0-9])")
         const regxPasswoord=new RegExp("^(?=.*[!@#$%^&*])")
-
         // if(this.state.employeeName===""){
         //     this.nameRef.current.style.border="2px solid red"
         //     this.employeeLabeleReqRef.current.style.display="block"
@@ -84,28 +83,32 @@ class RegistrationPage extends Component{
         if(this.state.employeeName===""){
             this.nameRef.current.style.border="2px solid red"
             this.employeeLabeleReqRef.current.style.display="block"
-            this.employeeLabeleSpcRef.current.style.display="none"
-            this.employeeLabeleNumericRef.current.style.display="none"
+            this.setState({
+                employeeNameError:"**Employee Name Required"
+            })
         }
 
         else if(regxname.test(this.state.employeeName)){
-            this.employeeLabeleNumericRef.current.style.display="block"
-            this.employeeLabeleSpcRef.current.style.display="none"
-            this.employeeLabeleReqRef.current.style.display="none"
+            this.employeeLabeleReqRef.current.style.display="block"
+            this.setState({
+                employeeNameError:"**Numeric number not required"
+            })
         }
 
         else if(regxPasswoord.test(this.state.employeeName)){
-            this.employeeLabeleSpcRef.current.style.display="block"
-            this.employeeLabeleNumericRef.current.style.display="none"
-            this.employeeLabeleReqRef.current.style.display="none"
+            this.employeeLabeleReqRef.current.style.display="block"
+            this.setState({
+                employeeNameError:"**No special character req."
+            })
 
         }
 
         else{
             this.nameRef.current.style.border="0.5px solid black"
-            this.employeeLabeleNumericRef.current.style.display="none"
             this.employeeLabeleReqRef.current.style.display="none"
-            this.employeeLabeleSpcRef.current.style.display="none"
+            this.setState({
+                employeeNameError:""
+            })
         }
 
      
@@ -125,22 +128,29 @@ class RegistrationPage extends Component{
         if(this.state.email===""){
             this.emailRef.current.style.border="2px solid red"
             this.emailLabeleReqRef.current.style.display="block"
-            this.emailLabeleProperRef.current.style.display="none"
+            this.setState({
+                employeeEmail:"**Email required"
+            })
 
         }
 
         else if((regxEmail.test(this.state.email))===false){
             this.emailRef.current.style.border="2px solid red"
-            this.emailLabeleProperRef.current.style.display="block"
-            this.emailLabeleReqRef.current.style.display="none"
+            this.emailLabeleReqRef.current.style.display="block"
+            this.setState({
+                employeeEmail:"**Enter Proper Email ID"
+            })
+
             
         }
 
         else if(localStorage.getItem("userEmail")===this.state.email){
             alert("Email is already register with us ")
             this.emailRef.current.style.border="2px solid red"
-            this.emailLabeleReqRef.current.style.display="none"
-            this.emailLabeleProperRef.current.style.display="none"
+            this.emailLabeleReqRef.current.style.display="block"
+            this.setState({
+                employeeEmail:""
+            })
 
         }
 
@@ -148,7 +158,9 @@ class RegistrationPage extends Component{
         else{
             this.emailRef.current.style.border="0.5px solid black"
             this.emailLabeleReqRef.current.style.display="none"
-            this.emailLabeleProperRef.current.style.display="none"
+            this.setState({
+                employeeEmail:""
+            })
           
         }
 
@@ -179,18 +191,11 @@ class RegistrationPage extends Component{
 
             .then( response =>{
                 console.log(response)
-                // this.props.localStorageObject.firstTimeUser=response.data.message
-                // this.props.localStorageObject.success=response.data.success
-                // // localStorage.setItem("fistTimeUser",response.data.message)
-                // // localStorage.setItem("success",response.data.success)
-                // console.log(newRegistration.user_name)
                 console.log(this.state.employeeName)
                 console.log(newRegistration.user_email)
                 console.log(this.state.email)
                 console.log(localStorage.getItem("fistTimeUser"))
                 console.log(localStorage.getItem("success"))
-                // console.log(this.props.localStorageObject.firstTimeUser)
-                // console.log(this.props.localStorageObject.success)
                 alert(localStorage.getItem("fistTimeUser"))
 
                 this.loginStatusHandler()
@@ -223,11 +228,17 @@ class RegistrationPage extends Component{
         if(this.state.employeeName===""){
             this.nameRef.current.style.border="2px solid red"
             this.employeeLabeleReqRef.current.style.display="block"
+            this.setState({
+                employeeNameError:"**Employee Name required"
+            })
         }
 
         if(this.state.email===""){
             this.emailRef.current.style.border="2px solid red"
             this.emailLabeleReqRef.current.style.display="block"
+            this.setState({
+                employeeEmail:"**Email required"
+            })
         }
 
     }
@@ -308,15 +319,15 @@ class RegistrationPage extends Component{
 
                     <div style={{margin:"20px 23px 10px 24px"}}>
                         <input type="text" ref={this.nameRef} value={this.state.employeeName} placeholder="Employee Name*" style={employeeNameField}  onChange={this.handleEmployeeName} onBlur={this.handleNameBlur}/>
-                        <label ref={this.employeeLabeleReqRef} style={{color:"red", display:"none"}}>**Employee Name Required</label> 
-                        <label ref={this.employeeLabeleNumericRef} style={{color:"red", display:"none"}}>**Numeric number not required</label>
-                        <label ref={this.employeeLabeleSpcRef} style={{color:"red", display:"none"}}>**No special character req.</label>
+                        <label ref={this.employeeLabeleReqRef} style={{color:"red", display:"none"}}>{this.state.employeeNameError}</label> 
+                        {/* <label ref={this.employeeLabeleNumericRef} style={{color:"red", display:"none"}}>**Numeric number not required</label>
+                        <label ref={this.employeeLabeleSpcRef} style={{color:"red", display:"none"}}>**No special character req.</label> */}
                     </div>
 
                     <div style={{margin:"20px 23px 10px 24px"}}>
                         <input type="text" ref={this.emailRef} value={this.state.email} placeholder="Email*" style={emailField} onChange={this.handleEmail} onBlur={this.handleEmailBlur}/>
-                        <label ref={this.emailLabeleReqRef} style={{color:"red", display:"none",float:"left"}}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Email Required</label> 
-                        <label ref={this.emailLabeleProperRef}style={{color:"red", display:"none",float:"left"}}>**Please Enter Proper Email id</label> 
+                        <label ref={this.emailLabeleReqRef} style={{textAlign:"start" ,color:"red",marginLeft:"23px",display:"none"}}>{this.state.employeeEmail}</label> 
+                        {/* <label ref={this.emailLabeleProperRef}style={{color:"red", display:"none",float:"left"}}>**Please Enter Proper Email id</label>  */}
                     </div>
 
                     <span style={{position:"relative", top:"30px",left:"46px"}}>
